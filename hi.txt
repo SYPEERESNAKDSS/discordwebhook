@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Notification Sender</title>
+</head>
+<body>
+    <h1>Send Notification to Discord</h1>
+    
+    <label for="message">Message:</label>
+    <input type="text" id="message" placeholder="WORK" required>
+    
+    <button onclick="sendNotification()">OK</button>
+    
+    <p id="result"></p>
+
+    <script>
+        async function sendNotification() {
+            const webhookUrl = 'https://discord.com/api/webhooks/1302030148794585098/3f9fnR0J9b6GENepdaNtoDA7-Fctltzae7t3g62BjkGIuPIVxS9dqulD6jnYcYjYW8ZX';
+
+            const messageContent = document.getElementById("message").value;
+
+            if (!messageContent) {
+                document.getElementById("result").innerText = "Message cannot be empty.";
+                return;
+            }
+
+            const data = { content: messageContent };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    document.getElementById("result").innerText = "Notification sent!";
+                } else {
+                    document.getElementById("result").innerText = "Error: Notification could not be sent.";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById("result").innerText = "An error occurred.";
+            }
+        }
+    </script>
+</body>
+</html>
